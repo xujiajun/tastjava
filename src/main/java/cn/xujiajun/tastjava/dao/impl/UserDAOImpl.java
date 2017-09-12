@@ -2,9 +2,14 @@ package cn.xujiajun.tastjava.dao.impl;
 
 import cn.xujiajun.tastjava.dao.UserDAO;
 import cn.xujiajun.tastjava.help.DbHelper;
-import cn.xujiajun.tastjava.model.User;
+import cn.xujiajun.tastjava.entity.User;
+import cn.xujiajun.tastjava.help.MyBatisHelper;
+import cn.xujiajun.tastjava.mapper.UserMapper;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.pmw.tinylog.Logger;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +43,32 @@ public class UserDAOImpl implements UserDAO {
             Logger.info(listUser);
             return listUser;
 
-        } catch (SQLException $e) {
-            throw new RuntimeException("Exception in GetUsers", $e);
+        } catch (SQLException e) {
+            throw new RuntimeException("Exception in GetUsers,msg: " + e.getMessage() + e.toString(), e);
+        }
+    }
+
+    public User GetUser() {
+        try {
+            SqlSessionFactory mySqlSessionFactory = MyBatisHelper.getSqlSessionFactory();
+
+            /**
+             * 映射sql的标识字符串，
+             * me.gacl.mapping.userMapper是userMapper.xml文件中mapper标签的namespace属性的值，
+             * getUser是select标签的id属性值，通过select标签的id属性值就可以找到要执行的SQL
+             */
+            String statement = "cn.xujiajun.User.getUser";//映射sql的标识字符串
+
+            //创建能执行映射文件中sql的sqlSession
+            SqlSession session = mySqlSessionFactory.openSession();
+            UserMapper userMapper = session.getMapper(UserMapper.class);
+
+            //执行查询返回一个唯一user对象的sql
+            User user = userMapper.getUser(1);
+            session.close();
+            return user;
+        } catch (IOException $e) {
+            throw new RuntimeException("Exception in GetUser", $e);
         }
     }
 }

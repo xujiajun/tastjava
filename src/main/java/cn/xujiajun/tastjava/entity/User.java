@@ -1,4 +1,4 @@
-package cn.xujiajun.tastjava.model;
+package cn.xujiajun.tastjava.entity;
 
 public class User {
     private int id;

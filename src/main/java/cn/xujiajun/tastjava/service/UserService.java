@@ -1,7 +1,7 @@
 package cn.xujiajun.tastjava.service;
 
 import cn.xujiajun.tastjava.dao.UserDAO;
-import cn.xujiajun.tastjava.model.User;
+import cn.xujiajun.tastjava.entity.User;
 
 import java.util.List;
 
@@ -10,6 +10,10 @@ public class UserService {
 
     public List<User> GetUsers() {
         return this.userDAO.GetUsers();
+    }
+
+    public User GetUser() {
+        return this.userDAO.GetUser();
     }
 
     /**

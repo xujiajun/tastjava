@@ -3,6 +3,7 @@ package cn.xujiajun.tastjava.core.ioc;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
+
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -15,8 +16,9 @@ public class ClassPathXmlApplicationContext implements BeanFactory {
     public ClassPathXmlApplicationContext() throws Exception {
         SAXBuilder builder = new SAXBuilder();
 
-        File xmlFile = new File("src/main/resources/beans.xml");
+        String basedir = System.getProperty("user.dir");
 
+        File xmlFile = new File(basedir + "/src/main/resources/beans.xml");
         // 构造文档对象
         Document document = builder.build(xmlFile);
         // 获取根元素
@@ -29,6 +31,7 @@ public class ClassPathXmlApplicationContext implements BeanFactory {
 
     /**
      * set Beans
+     *
      * @param list
      * @throws Exception
      */
@@ -50,6 +53,7 @@ public class ClassPathXmlApplicationContext implements BeanFactory {
 
     /**
      * setProperty inject
+     *
      * @param element
      * @param o
      * @throws Exception
