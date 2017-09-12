@@ -8,8 +8,11 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <version.jdk>1.6</version.jdk>
-    <version.junit>3.8.1</version.junit>
+    <version.jdk>1.8</version.jdk>
+    <junit.version>4.12</junit.version>
+    <junit.jupiter.version>5.0.0</junit.jupiter.version>
+    <junit.vintage.version>${junit.version}.0</junit.vintage.version>
+    <junit.platform.version>1.0.0</junit.platform.version>
     <version.jersey>2.25.1</version.jersey>
     <version.servlet.api>3.1.0</version.servlet.api>
     <version.servlet.jsp.api>2.3.1</version.servlet.jsp.api>
@@ -25,10 +28,35 @@
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${junit.jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>${version.junit}</version>
+      <version>${junit.version}</version>
       <scope>test</scope>
+    </dependency>
+    <!-- Only required to run tests in an IDE that bundles an older version -->
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-launcher</artifactId>
+      <version>${junit.platform.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- Only required to run tests in an IDE that bundles an older version -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit.jupiter.version}</version>
+    </dependency>
+    <!-- Only required to run tests in an IDE that bundles an older version -->
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <version>${junit.vintage.version}</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
@@ -97,6 +125,13 @@
       <version>${version.jersey}</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client -->
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-client</artifactId>
+      <version>${version.jersey}</version>
+    </dependency>
+
     <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-json-jackson -->
     <dependency>
       <groupId>org.glassfish.jersey.media</groupId>
@@ -122,6 +157,34 @@
           <source>${version.jdk}</source>
           <target>${version.jdk}</target>
         </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.19.1</version>
+        <configuration>
+          <includes>
+            <include>**/Test*.java</include>
+            <include>**/*Test.java</include>
+            <include>**/*Tests.java</include>
+            <include>**/*TestCase.java</include>
+          </includes>
+          <properties>
+            <!-- <includeTags>fast</includeTags> -->
+            <excludeTags>slow</excludeTags>
+            <!--
+            <configurationParameters>
+                junit.jupiter.conditions.deactivate = *
+            </configurationParameters>
+            -->
+          </properties>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-surefire-provider</artifactId>
+            <version>${junit.platform.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.apache.tomcat.maven</groupId>
