@@ -22,7 +22,7 @@ public class UserResource {
             return user;
 
         } catch (Exception e) {
-            Logger.info(e.toString());
+            Logger.error(e.toString());
 //            return "Exception:"+e.toString()+". msg:"+e.getMessage()+". trace:"+e.getStackTrace();
         }
         return null;
