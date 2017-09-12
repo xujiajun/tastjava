@@ -17,7 +17,8 @@ public class DbHelper {
 
     static {
         try {
-            InputStream input = new FileInputStream("src/main/resources/config.properties");
+            String basedir = System.getProperty("user.dir");
+            InputStream input = new FileInputStream(basedir + "/src/main/resources/config.properties");
 
             Properties prop = new Properties();
             // load a properties file
@@ -33,7 +34,8 @@ public class DbHelper {
         }
 
     }
-    public static  Connection getConnect() throws SQLException {
+
+    public static Connection getConnect() throws SQLException {
         if (jdbcConnection == null || jdbcConnection.isClosed()) {
             try {
                 Class.forName("com.mysql.jdbc.Driver");

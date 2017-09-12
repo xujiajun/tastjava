@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
-    <bean id="user" class="cn.xujiajun.tastjava.model.User" />
+    <bean id="user" class="cn.xujiajun.tastjava.entity.User" />
     <bean id="userDAO" class="cn.xujiajun.tastjava.dao.impl.UserDAOImpl" />
     <bean id="userService" class="cn.xujiajun.tastjava.service.UserService">
         <property name="userDAO" bean="userDAO" />
