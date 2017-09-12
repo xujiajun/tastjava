@@ -8,11 +8,22 @@ import java.io.IOException;
 import java.io.Reader;
 
 public class MyBatisHelper {
-    public static SqlSessionFactory getSqlSessionFactory() throws IOException {
-        String resource = "mybatis/Configuration.xml";
-        Reader reader = Resources.getResourceAsReader(resource);
-        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+    private static String resource = "mybatis/Configuration.xml";
 
-        return sessionFactory;
+    public static SqlSessionFactory getSqlSessionFactory() {
+
+        try {
+            Reader reader = getReader();
+            SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+            return sessionFactory;
+        } catch (IOException e) {
+            throw new RuntimeException("Exception in SqlSessionFactory", e);
+        }
+
+    }
+
+    private static Reader getReader() throws IOException {
+        Reader reader = Resources.getResourceAsReader(resource);
+        return reader;
     }
 }

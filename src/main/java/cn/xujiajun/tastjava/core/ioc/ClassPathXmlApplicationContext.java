@@ -16,9 +16,9 @@ public class ClassPathXmlApplicationContext implements BeanFactory {
     public ClassPathXmlApplicationContext() throws Exception {
         SAXBuilder builder = new SAXBuilder();
 
-        String basedir = System.getProperty("user.dir");
+        String basedir = this.getClass().getClassLoader().getResource("/").getPath();
 
-        File xmlFile = new File(basedir + "/src/main/resources/beans.xml");
+        File xmlFile = new File(basedir + "beans.xml");
         // 构造文档对象
         Document document = builder.build(xmlFile);
         // 获取根元素

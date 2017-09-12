@@ -1,2 +1,3 @@
-# tastjava
-A Java RESTful API framework.
+# TastJava
+The RESTful Web API framework for Java
+

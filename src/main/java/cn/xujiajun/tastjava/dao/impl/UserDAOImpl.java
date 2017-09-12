@@ -49,26 +49,15 @@ public class UserDAOImpl implements UserDAO {
     }
 
     public User GetUser() {
+        SqlSessionFactory mySqlSessionFactory = MyBatisHelper.getSqlSessionFactory();
+        SqlSession session = mySqlSessionFactory.openSession();
+
         try {
-            SqlSessionFactory mySqlSessionFactory = MyBatisHelper.getSqlSessionFactory();
-
-            /**
-             * 映射sql的标识字符串，
-             * me.gacl.mapping.userMapper是userMapper.xml文件中mapper标签的namespace属性的值，
-             * getUser是select标签的id属性值，通过select标签的id属性值就可以找到要执行的SQL
-             */
-            String statement = "cn.xujiajun.User.getUser";//映射sql的标识字符串
-
-            //创建能执行映射文件中sql的sqlSession
-            SqlSession session = mySqlSessionFactory.openSession();
             UserMapper userMapper = session.getMapper(UserMapper.class);
-
-            //执行查询返回一个唯一user对象的sql
             User user = userMapper.getUser(1);
-            session.close();
             return user;
-        } catch (IOException $e) {
-            throw new RuntimeException("Exception in GetUser", $e);
+        } finally {
+            session.close();
         }
     }
 }

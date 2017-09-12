@@ -10,6 +10,6 @@ public class IndexResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getMessage() {
-        return "hi,tastjava~";
+        return "hi,tastjava!!!~~";
     }
 }
