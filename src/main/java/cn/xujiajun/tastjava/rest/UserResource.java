@@ -18,7 +18,7 @@ public class UserResource {
         try {
             BeanFactory factory = new ClassPathXmlApplicationContext();
             UserService userService = (UserService) factory.getBean("userService");
-            User user = userService.GetUser();
+            User user = userService.GetUser(id);
             return user;
 
         } catch (Exception e) {
