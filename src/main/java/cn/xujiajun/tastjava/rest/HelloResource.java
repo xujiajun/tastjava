@@ -1,7 +1,11 @@
 package cn.xujiajun.tastjava.rest;
 
+import org.pmw.tinylog.Logger;
+
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,29 +21,29 @@ public class HelloResource {
     @Path("/{name}")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String getName(@PathParam("name")String name) {
-        return "Hello,"+name;
+    public String getName(@PathParam("name") String name) {
+        return "Hello," + name;
     }
 
     @POST
     @Path("/add")
     @Produces(MediaType.TEXT_PLAIN)
     public String add(@FormParam("name") String name) {
-        return "add name:"+name;
+        return "add name:" + name;
     }
 
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.TEXT_PLAIN)
     public String remove(@FormParam("id") int id) {
-        return "remove id:"+id;
+        return "remove id:" + id;
     }
 
     @PUT
     @Path("/update")
     @Produces(MediaType.TEXT_PLAIN)
     public String update(@FormParam("name") String name) {
-        return "update name:"+name;
+        return "update name:" + name;
     }
 
     @GET
@@ -58,10 +62,22 @@ public class HelloResource {
         return ListMyCustomBean;
     }
 
+    @GET
+    @Path("/path/{id}")
+    public String sayWithParam(@PathParam("id") int id) {
+        return "get param id value:" + id;
+    }
+
+    @GET
+    @Path("/context/{id}")
+    public String sayTestContext(@Context UriInfo ui,@PathParam("id") int id) {
+        Logger.info(ui.getPathParameters());
+        return ui.getPath();
+    }
 }
 
 
-class MyCustomBean implements Serializable{
+class MyCustomBean implements Serializable {
 
     private String name;
     private int age;

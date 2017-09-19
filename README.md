@@ -14,6 +14,7 @@ Architecture:   x86_64
 CPU：Intel Core i7  1.7 GHz *2
 RAM：8 GB
 JVM Version:    1.8.0_144-b01
+Mysql Version: 5.7.18
 ```
 
 Test Result (for reference only):
