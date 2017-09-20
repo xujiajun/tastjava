@@ -12,8 +12,9 @@ public class UserService {
         return this.userDAO.GetUsers();
     }
 
-    public User GetUser() {
-        return this.userDAO.GetUser();
+    public User GetUser(int id) {
+//        return this.userDAO.GetUser();
+        return this.userDAO.GetUser2(id);
     }
 
     /**

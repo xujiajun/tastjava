@@ -10,14 +10,18 @@ import java.io.Reader;
 public class MyBatisHelper {
     private static String resource = "mybatis/Configuration.xml";
 
+    private static class sqlSessionFactoryBuilderHolder {
+        private static final SqlSessionFactoryBuilder sqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();
+    }
+
     public static SqlSessionFactory getSqlSessionFactory() {
 
         try {
             Reader reader = getReader();
-            SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+            SqlSessionFactory sessionFactory = sqlSessionFactoryBuilderHolder.sqlSessionFactoryBuilder.build(reader);
             return sessionFactory;
         } catch (IOException e) {
-            throw new RuntimeException("Exception in SqlSessionFactory", e);
+            throw new RuntimeException("Exception in getSqlSessionFactory", e);
         }
 
     }

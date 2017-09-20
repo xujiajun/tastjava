@@ -1,46 +1,34 @@
 package cn.xujiajun.tastjava.help;
 
+import cn.xujiajun.tastjava.provider.datasource.DruidProvider;
+import cn.xujiajun.tastjava.provider.datasource.HikariCPProvider;
 import cn.xujiajun.tastjava.util.PropsUtil;
+import cn.xujiajun.tastjava.util.StrUtil;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import javax.sql.DataSource;
 import java.util.Properties;
 
 public class DbHelper {
-    private static String jdbcURL;
-    private static String jdbcDriver;
-    private static String jdbcUsername;
-    private static String jdbcPassword;
-    private static Connection jdbcConnection;
+    private static String jdbcProvider;
 
     static {
-            Properties conf = PropsUtil.loadProps("config.properties");
-            jdbcURL = conf.getProperty("jdbc.url");
-            jdbcUsername = conf.getProperty("jdbc.username");
-            jdbcPassword = conf.getProperty("jdbc.password");
+        Properties conf = PropsUtil.loadProps("config.properties");
+        jdbcProvider = conf.getProperty("jdbc.provider");
     }
 
-    public static Connection getConnect() throws SQLException {
-        if (jdbcConnection == null || jdbcConnection.isClosed()) {
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-            } catch (ClassNotFoundException e) {
-                throw new SQLException(e);
-            }
-            jdbcConnection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
-
+    public static DataSource getDatasource() {
+        if (StrUtil.isBlank(jdbcProvider) || (!StrUtil.isBlank(jdbcProvider) && ("HikariCP" == jdbcProvider))) {
+            HikariCPProvider dataSourceProvider = HikariCPProvider.getInstance();
+            dataSourceProvider.register();
+            return dataSourceProvider.getDataSource();
         }
 
-        return jdbcConnection;
-    }
-
-    public static void disconnect() throws SQLException {
-        if (jdbcConnection != null && !jdbcConnection.isClosed()) {
-            jdbcConnection.close();
+        if (!StrUtil.isBlank(jdbcProvider) && ("Druid" == jdbcProvider)) {
+            DruidProvider dataSourceProvider = DruidProvider.getInstance();
+            dataSourceProvider.register();
+            return dataSourceProvider.getDataSource();
         }
+
+        return null;
     }
 }
