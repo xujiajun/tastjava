@@ -6,12 +6,14 @@ import org.pmw.tinylog.Logger;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Map;
 
-import cn.xujiajun.tastjava.rest.exception.NotAuthorizedException;
+//import cn.xujiajun.tastjava.rest.exception.NotAuthorizedException;
 
 @Provider
 public class ResourceAuthFilter implements ContainerRequestFilter {
@@ -25,7 +27,9 @@ public class ResourceAuthFilter implements ContainerRequestFilter {
         }
 
         if (!isAuthTokenValid(containerRequestContext)) {
-            throw new NotAuthorizedException("You Don't Have Permission");
+//            throw new NotAuthorizedException("You Don't Have Permission");
+            containerRequestContext.abortWith(Response
+                    .seeOther(URI.create("/tastjava/user/login")).build());
         }
 
         return;
