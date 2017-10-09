@@ -18,7 +18,7 @@ public class HelloResourceTest {
     public void sayHelloWordTest() {
         WebTarget target = client.target(REST_URI);
         String response = target.request(MediaType.TEXT_PLAIN_TYPE).get(String.class);
-        assertEquals("Hello world!", response);
+        assertEquals("OK", response);
     }
 
     @Test
@@ -26,6 +26,6 @@ public class HelloResourceTest {
         WebTarget target = client.target(REST_URI);
         WebTarget targetUpdated = target.path("/tastjava");
         String response = targetUpdated.request(MediaType.TEXT_PLAIN_TYPE).get(String.class);
-        assertEquals("Hello,tastjava", response);
+        assertEquals("OK", response);
     }
 }
